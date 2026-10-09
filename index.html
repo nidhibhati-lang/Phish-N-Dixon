@@ -217,8 +217,8 @@ When an employee clicks a link or submits credentials on a simulated page, no da
     const token = params.get('token');
     if (!token) return;
 
-    const APPS_SCRIPT_URL = "PASTE_DEPLOYED_APPS_SCRIPT_WEB_APP_URL_HERE";
-    if (!APPS_SCRIPT_URL.startsWith("https://script.google.com/macros/s/AKfycbx2maFgTKFhk25moa7o6c4iiC655_-jP23nNbVyjwmzUEBDElpfQ7zwFmSmhGhusI0ZQw/exec")) {
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx2maFgTKFhk25moa7o6c4iiC655_-jP23nNbVyjwmzUEBDElpfQ7zwFmSmhGhusI0ZQw/exec";
+    if (!APPS_SCRIPT_URL.startsWith("https://script.google.com/macros/s/")) {
       console.error("Configure APPS_SCRIPT_URL with the deployed Apps Script web-app URL.");
       return;
     }
