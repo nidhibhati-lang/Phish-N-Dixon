@@ -209,23 +209,36 @@ When an employee clicks a link or submits credentials on a simulated page, no da
           </div>
       </footer>
     </div>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      defer
+    ></script>
    <script>
-  window.addEventListener('DOMContentLoaded', () => {
-    const params = new URLSearchParams(window.location.search);
-    const token = params.get('token');
-    if (!token) return;
+    window.addEventListener("DOMContentLoaded", () => {
+      const pageUrl = new URL(window.location.href);
+      const token = pageUrl.searchParams.get("token");
+      if (!token) return;
 
-    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx2maFgTKFhk25moa7o6c4iiC655_-jP23nNbVyjwmzUEBDElpfQ7zwFmSmhGhusI0ZQw/exec";
-    fetch(`${APPS_SCRIPT_URL}?token=${encodeURIComponent(token)}`, {
-      method: "GET",
-      mode: "no-cors",
-      keepalive: true
-    }).catch(error => console.error("Could not record the awareness-exercise click.", error));
+      const APPS_SCRIPT_URL =
+        "https://script.google.com/macros/s/AKfycbx2maFgTKFhk25moa7o6c4iiC655_-jP23nNbVyjwmzUEBDElpfQ7zwFmSmhGhusI0ZQw/exec";
+      const trackingUrl = new URL(APPS_SCRIPT_URL);
+      trackingUrl.searchParams.set("token", token);
 
-    params.delete('token');
-    const remainingQuery = params.toString();
-    history.replaceState(null, '', `${location.pathname}${remainingQuery ? `?${remainingQuery}` : ''}${location.hash}`);
-  });
-</script>
+      fetch(trackingUrl.toString(), {
+        method: "GET",
+        mode: "no-cors",
+        keepalive: true
+      }).catch(error =>
+        console.error("Could not record the awareness-exercise click.", error)
+      );
+
+      pageUrl.searchParams.delete("token");
+      history.replaceState(
+        null,
+        "",
+        `${pageUrl.pathname}${pageUrl.search}${pageUrl.hash}`
+      );
+    });
+    </script>
   </body>
 </html>
